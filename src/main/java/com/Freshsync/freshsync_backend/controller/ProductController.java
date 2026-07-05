@@ -29,6 +29,11 @@ public class ProductController {
     public Product getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
+    
+    @GetMapping("/search/{keyword}")
+    public List<Product> searchProducts(@PathVariable String keyword) {
+        return productService.searchProducts(keyword);
+    }
 
     @PutMapping("/update/{id}")
     public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {

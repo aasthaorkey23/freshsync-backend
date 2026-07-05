@@ -1,6 +1,7 @@
 package com.Freshsync.freshsync_backend.model;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -129,5 +130,54 @@ public class Product {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+    
+    public int getRemainingStock() {
+        return this.quantity;
+    }
+    
+    public String getStockStatus() {
+        if (this.quantity == 0) {
+            return "Out of Stock";
+        } else if (this.quantity <= 5) {
+            return "Low Stock";
+        } else {
+            return "Available";
+        }
+    }
+    
+    public Long getDaysToExpire() {
+        if (this.expiryDate == null) {
+            return null;
+        }
+
+        LocalDate today = LocalDate.now();
+        long daysLeft = ChronoUnit.DAYS.between(today, this.expiryDate);
+
+        if (daysLeft < 0) {
+            return null;
+        }
+
+        return daysLeft;
+    }
+
+    public String getExpiryStatus() {
+        if (this.expiryDate == null) {
+            return "Expiry Date Not Available";
+        }
+
+        LocalDate today = LocalDate.now();
+        long daysLeft = ChronoUnit.DAYS.between(today, this.expiryDate);
+
+        if (daysLeft < 0) {
+            return "Expired";
+        } else if (daysLeft == 0) {
+            return "Expiring Today";
+        } else if (daysLeft <= 7) {
+            return "Expiring Soon";
+        } else {
+            return "Safe";
+        }
+      
     }
 }

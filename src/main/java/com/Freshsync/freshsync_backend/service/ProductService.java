@@ -49,4 +49,20 @@ public class ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
+    
+    public List<Product> searchProducts(String keyword) {
+        List<Product> productsByName = productRepository.findByProductNameContainingIgnoreCase(keyword);
+
+        if (!productsByName.isEmpty()) {
+            return productsByName;
+        }
+
+        List<Product> productsByBrand = productRepository.findByBrandContainingIgnoreCase(keyword);
+
+        if (!productsByBrand.isEmpty()) {
+            return productsByBrand;
+        }
+
+        return productRepository.findByBatchNoContainingIgnoreCase(keyword);
+    }
 }
