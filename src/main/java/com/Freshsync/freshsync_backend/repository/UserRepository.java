@@ -8,7 +8,7 @@ import com.Freshsync.freshsync_backend.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    User findByEmailAndPassword(String email, String password);
-
     List<User> findByRoleIgnoreCase(String role);
-}
+    
+    User findByEmail(String email);
+}	

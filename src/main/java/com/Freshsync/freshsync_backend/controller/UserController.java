@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import com.Freshsync.freshsync_backend.model.User;
 import com.Freshsync.freshsync_backend.service.UserService;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -16,7 +18,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public User registerUser(@RequestBody User user) {
+    public String registerUser(@RequestBody User user) {
         return userService.registerUser(user);
     }
 
@@ -35,8 +37,8 @@ public class UserController {
         return userService.getUsersByRole(role);
     }
 
-    @PostMapping("/login")	
-    public String loginUser(@RequestBody User user) {
+    @PostMapping("/login")
+    public Map<String, String> loginUser(@RequestBody User user) {
         return userService.loginUser(user.getEmail(), user.getPassword());
     }
 }
